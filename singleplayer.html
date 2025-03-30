@@ -6,6 +6,10 @@
     <title>Hippo vs Poacher</title>
     <script src="https://unpkg.com/@rive-app/canvas@2.7.0"></script>
     <style>
+           @font-face {
+            font-family: 'PixelFont';
+            src: url('pixelfont.ttf') format('truetype');
+        }
         body {      
             background: url('moodashbg5.png') no-repeat center center fixed;
             background-size: cover;
@@ -21,16 +25,14 @@
             top: 10px;
             left: 40%;
             transform: translateX(-50%);
-            width: 200px;
-            height: 50px;
+          
         }
         .water-bar-container {
             position: absolute;
             top: 10px;
             left: 60%;
             transform: translateX(-50%);
-            width: 200px;
-            height: 50px;
+           
         }
         .character, .obstacle, .collectible {
             position: absolute;
@@ -45,16 +47,53 @@
             cursor: pointer;
            
         }
+        .scoreboard {
+    position: absolute;
+    top: 20px;
+    right: 50px;
+    background: rgba(22, 156, 78, 0.884);
+    color: white;
+    padding: 20px;
+    font-size: 34px;
+    border-radius: 40px;
+    image-rendering: pixelated;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Adds spacing between items */
+    align-items: flex-start; /* Aligns items to the left */
+}
+.score-item {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Adds spacing between the icon and text */
+}
+.score-item img {
+    height: 40px;
+}
+
     </style>
 </head>
 <body>
-    <img src="back.png" class="back-button" onclick="goBack()">
+    <img src="back.png" class="back-button" onclick="window.location.href='game.html';">
+
     <div class="life-bar-container">
         <canvas id="lifeBar"></canvas>
     </div>
     <div class="water-bar-container">
         <canvas id="waterBar"></canvas>
     </div>
+    <div class="scoreboard">
+        <div class="score-item">
+            <img src="fruit1.png" alt="Fruit"> Fruits: <span id="fruitCount">100</span>
+        </div>
+        <div class="score-item">
+            <img src="waterdrop.png" alt="Water">    Water: <span id="waterCount">34</span>
+        </div>
+        <div class="score-item">
+            <img src="flower.png" alt="Flower"> Flowers: <span id="flowerCount">34</span>
+        </div>
+    </div>
+    
     <img id="hippo" src="moodash1.png" class="character" style="width: 500px; height: 300px; left: 100px; bottom: 50px;">
     <img id="poacher" src="poacher2.png" class="character" style="width: 300px; height: 300px; left: 10px; bottom: 50px;">
 
@@ -64,17 +103,20 @@
             src: "lvl.riv",
             canvas: document.getElementById("lifeBar"),
             autoplay: true,
-            loop: true,
+            
             stateMachines: "State Machine 1", // Adjust this based on your Rive file
             onLoad: () => console.log("Rive animation loaded!"),
+          
         });
         new rive.Rive({
             src: "water.riv",
             canvas: document.getElementById("waterBar"),
             autoplay: true,
-            loop: true,
+            
             stateMachines: "State Machine 1", // Adjust this based on your Rive file
             onLoad: () => console.log("Rive animation loaded!"),
+            
+            
         });
 
         const hippo = document.getElementById("hippo");
@@ -122,13 +164,32 @@
                 fruit.src = "fruit1.png";
                 fruit.classList.add("collectible");
                 fruit.style.width = "100px";
-                fruit.style.height = "100px";
+                fruit.style.height = "60px";
                 fruit.style.left = Math.random() * (window.innerWidth - 50) + "px";
                 fruit.style.bottom = "100px";
                 document.body.appendChild(fruit);
                 
                 setTimeout(() => { fruit.remove(); }, 4000);
             }, 5000);
+           
+            setInterval(() => {
+                let water = document.createElement("img");
+                water.src = "waterdrop.png";
+                water.classList.add("collectible");
+                water.style.width = "100px";
+                water.style.height = "100px";
+                water.style.left = Math.random() * (window.innerWidth - 50) + "px";
+                water.style.bottom = "100px";
+                document.body.appendChild(water);
+
+                water.addEventListener("click", () => {
+                    water.remove();
+                    waterCount++;
+                    document.getElementById("waterCount").textContent = waterCount;
+                });
+
+                setTimeout(() => { water.remove(); }, 4000);
+            }, 7000);
         }
         
         spawnRandomElements();
