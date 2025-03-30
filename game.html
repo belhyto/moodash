@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Mode</title>
+    <style>
+        /* Load Pixel Font */
+        @font-face {
+            font-family: 'PixelFont';
+            src: url('pixelfont.ttf') format('truetype');
+        }
+
+        body {
+            background: url('moodashbg4.png') no-repeat center center fixed;
+            background-size: cover;
+            image-rendering: pixelated;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            color: white;
+            font-family: 'PixelFont', sans-serif;
+            font-size: 60px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 50px;
+            animation: bounce 2s infinite alternate ease-in-out;
+        }
+
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+
+        .button {
+            width: 300px;
+            height: auto;
+            cursor: pointer;
+            image-rendering: pixelated;
+            transition: transform 0.2s;
+        }
+
+        .button:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Choose Your Mode</h1>
+    <a href="singleplayer.html">
+        <img src="buttonsp1.png" alt="Single Player" class="button" onmouseover="this.src='buttonsp2.png';" onmouseout="this.src='buttonsp1.png';">
+    </a>
+    <a href="multiplayer.html">
+        <img src="buttonMP1.png" alt="Multiplayer" class="button" onmouseover="this.src='buttonMP2.png';" onmouseout="this.src='buttonMP1.png';">
+    </a>
+
+</body>
+</html>

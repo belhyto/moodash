@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wildlife Awareness</title>
+    <style>
+        body {
+            background: url('moodashbg1.png') no-repeat center center fixed;
+            background-size: cover;
+            image-rendering: pixelated; /* Keeps pixel art sharp */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .title {
+            width: 1500px;
+            height: auto;
+            image-rendering: pixelated;
+            animation: bounce 2s infinite alternate ease-in-out;
+        }
+
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-20px); }
+        }
+
+        .button {
+            width: 300px;
+            height: auto;
+            margin-top: 50px;
+            cursor: pointer;
+            image-rendering: pixelated;
+            transition: transform 0.2s;
+        }
+
+        .button:hover {
+            content: url('buttonstart2.png'); /* Change image on hover */
+            transform: scale(1.1); /* Slight zoom effect */
+        }
+    </style>
+</head>
+<body>
+    <img src="moodashTitle.png" alt="Wildlife Awareness" class="title">
+    <a href="facts.html">
+        <img src="buttonstart.png" alt="Start" class="button">
+    </a>
+</body>
+</html>

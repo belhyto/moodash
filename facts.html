@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biologist's Message</title>
+    <style>
+        /* Load Pixel Font */
+        @font-face {
+            font-family: 'PixelFont';
+            src: url('pixelfont.ttf') format('truetype');
+        }
+
+        body {
+            background: url('moodashbg3.png') no-repeat center center fixed;
+            background-size: cover;
+            image-rendering: pixelated;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            color: white;
+            font-family: 'PixelFont', sans-serif;
+            font-size: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .dialogue-box {
+            background: rgba(163, 96, 40, 0.8);
+            padding: 20px;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            z-index: 2; /* Keeps text above sprite */
+            animation: bounce 2s infinite alternate ease-in-out;
+        }
+
+        .biologist {
+            width: 328px;  
+            height: 528px; 
+            position: absolute;
+            left: 10%; /* Moves Dr. MOO to the left */
+            bottom: 5%; /* Lowers Dr. MOO */
+            background: url('moodashdr1.gif');
+            background-size: auto 100%;
+            image-rendering: pixelated;
+           
+        }
+
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+
+        .next-button {
+            width: 180px;
+            height: auto;
+            margin-top: 20px;
+            cursor: pointer;
+            image-rendering: pixelated;
+            transition: transform 0.2s;
+        }
+
+        .next-button:hover {
+            content: url('buttonnext2.png'); /* Change image on hover */
+            transform: scale(1.1); /* Slight zoom effect */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="biologist"></div> 
+
+    <div class="dialogue-box">
+        <p><strong>Dr. MOO, Wildlife Biologist:</strong></p>
+        <p id="dialogue">Poaching is one of the leading causes of species extinction. Every year, thousands of elephants, rhinos, and tigers are illegally hunted.</p>
+        <img src="buttonnext.png" alt="Next" class="next-button" onclick="nextDialogue()">
+    </div>
+
+    <script>
+        const dialogues = [
+            "Poaching is one of the leading causes of species extinction. Every year, thousands of elephants, rhinos, and tigers are illegally hunted.",
+            "Did you know? The illegal wildlife trade is worth over $23 billion annually.",
+            "Rhino horns are falsely believed to have medicinal properties, leading to their mass slaughter.",
+            "We need to act now. Conservation efforts, awareness, and stricter laws can save these species.",
+            "Are you ready to take action?"
+        ];
+
+        let index = 0;
+        function nextDialogue() {
+            index++;
+            if (index < dialogues.length) {
+                document.getElementById("dialogue").innerText = dialogues[index];
+            } else {
+                window.location.href = "game.html";
+            }
+        }
+    </script>
+
+</body>
+</html>

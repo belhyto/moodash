@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hippo vs Poacher</title>
+    <script src="https://unpkg.com/@rive-app/canvas@2.7.0"></script>
+    <style>
+        body {      
+            background: url('moodashbg5.png') no-repeat center center fixed;
+            background-size: cover;
+            image-rendering: pixelated;
+            overflow: hidden;
+            font-family: 'PixelFont', sans-serif;
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+        .life-bar-container {
+            position: absolute;
+            top: 10px;
+            left: 40%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 50px;
+        }
+        .water-bar-container {
+            position: absolute;
+            top: 10px;
+            left: 60%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 50px;
+        }
+        .character, .obstacle, .collectible {
+            position: absolute;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            height: 60px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+           
+        }
+    </style>
+</head>
+<body>
+    <img src="back.png" class="back-button" onclick="goBack()">
+    <div class="life-bar-container">
+        <canvas id="lifeBar"></canvas>
+    </div>
+    <div class="water-bar-container">
+        <canvas id="waterBar"></canvas>
+    </div>
+    <img id="hippo" src="moodash1.png" class="character" style="width: 500px; height: 300px; left: 100px; bottom: 50px;">
+    <img id="poacher" src="poacher2.png" class="character" style="width: 300px; height: 300px; left: 10px; bottom: 50px;">
+
+    <script>
+        // Load Rive Life Bar Animation
+        new rive.Rive({
+            src: "lvl.riv",
+            canvas: document.getElementById("lifeBar"),
+            autoplay: true,
+            loop: true,
+            stateMachines: "State Machine 1", // Adjust this based on your Rive file
+            onLoad: () => console.log("Rive animation loaded!"),
+        });
+        new rive.Rive({
+            src: "water.riv",
+            canvas: document.getElementById("waterBar"),
+            autoplay: true,
+            loop: true,
+            stateMachines: "State Machine 1", // Adjust this based on your Rive file
+            onLoad: () => console.log("Rive animation loaded!"),
+        });
+
+        const hippo = document.getElementById("hippo");
+        const poacher = document.getElementById("poacher");
+        let hippoX = 100, hippoY = 50, speed = 5, jumpPower = 100, gravity = 5, onGround = true;
+        let poacherX = 10, poacherSpeed = 1;
+        let keys = {};
+        
+        document.addEventListener("keydown", (e) => keys[e.code] = true);
+        document.addEventListener("keyup", (e) => keys[e.code] = false);
+        
+        function update() {
+            if (keys["ArrowRight"]) hippoX += speed;
+            if (keys["ArrowLeft"]) hippoX -= speed;
+            if (keys["ArrowUp"] && onGround) { hippoY += jumpPower; onGround = false; }
+            if (keys["ArrowDown"]) hippoY -= speed;
+            
+            hippoY -= gravity;
+            if (hippoY <= 50) { hippoY = 50; onGround = true; }
+            
+            poacherX += poacherSpeed;
+            if (poacherX >= window.innerWidth - 80 || poacherX <= 0) poacherSpeed *= -1;
+            
+            hippo.style.left = hippoX + "px";
+            hippo.style.bottom = hippoY + "px";
+            poacher.style.left = poacherX + "px";
+        }
+        
+        function spawnRandomElements() {
+            setInterval(() => {
+                let obstacle = document.createElement("img");
+                obstacle.src = "cage.png";
+                obstacle.classList.add("obstacle");
+                obstacle.style.width = "300px";
+                obstacle.style.height = "300px";
+                obstacle.style.left = Math.random() * (window.innerWidth - 60) + "px";
+                obstacle.style.bottom = "50px";
+                document.body.appendChild(obstacle);
+                
+                setTimeout(() => { obstacle.remove(); }, 4000);
+            }, 3000);
+            
+            setInterval(() => {
+                let fruit = document.createElement("img");
+                fruit.src = "fruit1.png";
+                fruit.classList.add("collectible");
+                fruit.style.width = "100px";
+                fruit.style.height = "100px";
+                fruit.style.left = Math.random() * (window.innerWidth - 50) + "px";
+                fruit.style.bottom = "100px";
+                document.body.appendChild(fruit);
+                
+                setTimeout(() => { fruit.remove(); }, 4000);
+            }, 5000);
+        }
+        
+        spawnRandomElements();
+        setInterval(update, 30);
+    </script>
+</body>
+</html>
